@@ -1,0 +1,34 @@
+name: Ejecutar Tests
+
+# Define cuándo ejecutar el workflow (en este caso, al hacer "push" o "pull request" en la rama principal)
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+# Define los "jobs" (tareas) que se ejecutarán en el workflow
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Usa un sistema Linux para ejecutar los tests
+
+    steps:
+      # 1. Clona el código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Configura Node.js en la máquina virtual
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      # 3. Instala las dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Ejecuta los tests
+      - name: Run tests
+        run: npm test
